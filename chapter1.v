@@ -204,7 +204,6 @@ Notation "x + y" := (plus x y) (at level 50, left associativity) : nat_scope.
 Notation "x - y" := (minus x y) (at level 50, left associativity) : nat_scope.
 Notation "x * y" := (mult x y) (at level 40, left associativity) : nat_scope.
 
-
 Fixpoint beq_nat (n m : nat) : bool :=
 match n, m with
 | O , O => true
@@ -260,3 +259,69 @@ Example test_blt_nat24: (blt_nat2 2 4) = true.
 Proof. simpl. reflexivity. Qed.
 Example test_blt_nat25: (blt_nat2 4 2) = false.
 Proof. simpl. reflexivity. Qed.
+
+(* Proof by Simplification *)
+
+Theorem plus_0_n : forall n:nat, 0 + n = n.
+Proof. simpl. reflexivity. Qed.
+
+Theorem plus_O_n' : forall n:nat, 0 + n = n.
+Proof.
+  reflexivity. Qed.
+
+(* exercise 1.4.1 *)
+
+Eval simpl in (forall n:nat, n + 0 = n).
+
+Eval simpl in (forall n:nat, 0 + n = n).
+
+Theorem plus_O_n'' : forall n:nat, 0 + n = n.
+Proof.
+  intros n. reflexivity. Qed.
+
+Theorem plus_1_l : forall n:nat, 1 + n = S n.
+Proof.
+  intros n. reflexivity. Qed.
+
+Theorem mult_0_l : forall n:nat, 0 * n = 0.
+Proof.
+  intros n. reflexivity. Qed.
+
+Theorem plus_id_example : forall n m:nat,
+  n = m ->  n + n = m + m.
+
+Proof.
+intros n m.
+intros H.
+rewrite -> H.
+reflexivity. Qed.
+
+(* exercise 1.5.1 *)
+
+Theorem plus_id_exercise : forall n m o : nat,
+  n = m -> m = o -> n + m = m + o.
+Proof.
+  intros n m o.
+  intros H.
+  rewrite -> H.
+  intros H1.
+  rewrite H1.
+  reflexivity.
+Qed.
+
+Theorem mult_0_plus : forall n m : nat,
+  (0 + n) * m = n * m.
+Proof.
+  intros n m.
+  rewrite -> plus_O_n.
+  reflexivity. Qed.
+
+(* exercise 1.5.2 *)
+
+Theorem mult_1_plus : forall n m : nat,
+  (1 + n) * m = m + (n * m).
+Proof.
+  intros n m.
+  simpl.
+  reflexivity. Qed.
+  
