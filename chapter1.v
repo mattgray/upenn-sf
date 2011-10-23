@@ -458,6 +458,8 @@ Case "n = 0". simpl. rewrite -> plus_0_r. reflexivity.
 Case "inductive". simpl. rewrite -> IHn'. rewrite -> plus_n_Sm. reflexivity.
 Qed.
 
+(* exercise 1.7.2 *)
+
 Fixpoint double (n:nat) :=
   match n with
   | O => O
@@ -466,6 +468,49 @@ Fixpoint double (n:nat) :=
 
 Lemma double_plus : forall n, double n = n + n .
 Proof.
-  (* tbc *) Qed.
+intros n.
+induction n as [|n'].
+Case "n = 0".
+reflexivity.
+Case "inductive".
+simpl.
+rewrite -> IHn'.
+rewrite -> plus_n_Sm.
+reflexivity.
+Qed.
+
+
+Theorem plus_assoc : forall n m p : nat,
+  n + (m + p) = (n + m) + p.
+Proof.
+intros n m p. induction n as [|n'].
+Case "n = 0".
+reflexivity.
+simpl.
+rewrite -> IHn'.
+reflexivity.
+Qed.
+
+(* exercises 1.9 *)
+Theorem plus_swap : forall n m p : nat,
+  n + (m + p) = m + (n + p).
+Proof.
+intros n m p.
+assert(H: m + (n + p) = m + n + p).
+rewrite -> plus_assoc. reflexivity.
+rewrite -> H.
+rewrite -> plus_assoc.
+assert(H': n + m = m + n). rewrite -> plus_comm. reflexivity.
+rewrite -> H'.
+reflexivity.
+Qed.
+
+Theorem mult_comm : forall m n : nat,
+ m * n = n * m.
+Proof.
+Qed.
+
+
+
 
 
